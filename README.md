@@ -1,16 +1,14 @@
-# [ :biohazard: WIP :biohazard: ] Support App Library
+# [ :biohazard: WIP :biohazard: ] Support Authentication Library
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0543920046dd4a7f9f9aa3467876c640)](https://www.codacy.com/app/AniTrend/support-app?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AniTrend/support-app&amp;utm_campaign=Badge_Grade) &nbsp; [![Build Status](https://travis-ci.org/AniTrend/support-app.svg?branch=master)](https://travis-ci.org/AniTrend/support-app)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/e5b695e0e61144639591a341f3d42d6d)](https://www.codacy.com/app/AniTrend/support-auth?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AniTrend/support-auth&amp;utm_campaign=Badge_Grade) &nbsp; [![Build Status](https://travis-ci.org/AniTrend/support-auth.svg?branch=master)](https://travis-ci.org/AniTrend/support-auth)
 
-This project is an attempt to create a reusable application architecture that follows some of the aspects of [Guide to App Architecture](https://developer.android.com/jetpack/docs/guide) and is mostly written in Kotlin and makes use of [Android Architecture Components](https://developer.android.com/topic/libraries/architecture/) bundled with a couple of libraries which will be stated in the documentation.
+A easy to use social authentication android library for (Facebook, Google, Twitter) forked from [Simple Auth](https://github.com/jaychang0917/SimpleAuth)to addon/improve life-cycle awareness with [Lifecycle Arch Componets](https://developer.android.com/topic/libraries/architecture/lifecycle) & [Couroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) tweaked to also be life cycle aware as demonstrated with [structured concurrency, lifecycle and coroutine parent-child hierarchy](https://github.com/Kotlin/kotlinx.coroutines/blob/master/ui/coroutines-guide-ui.md#structured-concurrency-lifecycle-and-coroutine-parent-child-hierarchy)
 
-__No pull requests requests will be accepted until v1.0 is released__
+## Usage
 
-## Documentation
+Details will be provided later.
 
-Development documentation for this project is a work in progress, and is available over at: __[anitrend.gitbook.io](https://anitrend.gitbook.io/support/)__
-
-[![Waffle.io - Columns and their card count](https://badge.waffle.io/AniTrend/support-app.svg?columns=all)](https://waffle.io/AniTrend/support-app)
+[![Waffle.io - Columns and their card count](https://badge.waffle.io/AniTrend/support-auth.svg?columns=all)](https://waffle.io/AniTrend/support-auth)
 
 
 ## License
