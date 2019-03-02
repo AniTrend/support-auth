@@ -18,6 +18,14 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            manifestPlaceholders = [
+                    facebookAppId        : "your facebook app id",
+                    googleWebClientId    : "your google web client id",
+                    twitterConsumerKey   : "your twitter consumer key",
+                    twitterConsumerSecret: "your twitter consumer secret"
+            ]
+        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -27,7 +35,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
 
     implementation project(":support-core")
     implementation project(":support-facebook")
