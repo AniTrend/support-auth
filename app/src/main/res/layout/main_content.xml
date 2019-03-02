@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ic_bxl_facebook"
-        app:backgroundTint="@color/com_facebook_blue"
+        app:backgroundTint="@color/material_blue"
         app:useCompatPadding="true"
         app:fabSize="normal" android:layout_marginStart="8dp"
         app:layout_constraintStart_toStartOf="parent" android:layout_marginTop="8dp"

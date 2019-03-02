@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomappbar.BottomAppBar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.navigation.NavigationView
 import io.wax911.support.core.callback.AuthCallback
 import io.wax911.support.core.model.SocialUser
 import io.wax911.support.facebook.FacebookAuth
