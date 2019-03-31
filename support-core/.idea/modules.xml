@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/../SimpleAuth.iml" filepath="$PROJECT_DIR$/../SimpleAuth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../app/app.iml" filepath="$PROJECT_DIR$/../app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/library-common.iml" filepath="$PROJECT_DIR$/library-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../library-facebook/library-facebook.iml" filepath="$PROJECT_DIR$/../library-facebook/library-facebook.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../library-google/library-google.iml" filepath="$PROJECT_DIR$/../library-google/library-google.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../library-instagram/library-instagram.iml" filepath="$PROJECT_DIR$/../library-instagram/library-instagram.iml" />
+      <module fileurl="file://$PROJECT_DIR$/../library-twitter/library-twitter.iml" filepath="$PROJECT_DIR$/../library-twitter/library-twitter.iml" />
+    </modules>
+  </component>
+</project>
