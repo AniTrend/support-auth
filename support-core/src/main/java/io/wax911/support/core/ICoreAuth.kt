@@ -8,5 +8,5 @@ interface ICoreAuth {
 
     fun connectToProvider(context: Context?, listener: AuthCallback, scopes: List<String> = listOf())
     fun disconnectProvider(context: Context?)
-    fun revokeProvider(context: Context?, revokeCallback: RevokeCallback?)
+    fun revokeProvider(context: Context?, revokeCallback: RevokeCallback? = null)
 }
