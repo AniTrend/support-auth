@@ -18,7 +18,7 @@ android {
         }
         debug {
             manifestPlaceholders = [
-                    googleWebClientId: "775503623453-sqk59kuvr2f8qkb9fkcnhef5uvn9riu4.apps.googleusercontent.com",
+                    googleWebClientId: "49247361267-bm9eqtf4nvkchua8rq75q9a3qolf9ng0.apps.googleusercontent.com",
             ]
         }
     }
