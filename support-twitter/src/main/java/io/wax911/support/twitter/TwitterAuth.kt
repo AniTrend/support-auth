@@ -6,19 +6,19 @@ import com.twitter.sdk.android.core.TwitterCore
 import io.wax911.support.core.callback.AuthCallback
 import io.wax911.support.core.callback.RevokeCallback
 import io.wax911.support.core.model.AuthenticationMeta
-import io.wax911.support.core.model.AuthStorage
+import io.wax911.support.core.model.AuthCache
 import io.wax911.support.core.utils.CookiesUtils
 import io.wax911.support.core.ICoreAuth
 
 object TwitterAuth: ICoreAuth {
 
     override fun connectToProvider(context: Context?, listener: AuthCallback, scopes: List<String>) {
-        AuthStorage.instance.twitterAuthenticationMeta = AuthenticationMeta(scopes, listener)
+        AuthCache.instance.twitterAuthenticationMeta = AuthenticationMeta(scopes, listener)
         TwitterAuthActivity.start(context)
     }
 
     override fun disconnectProvider(context: Context?) {
-        AuthStorage.instance.twitterAuthenticationMeta = null
+        AuthCache.instance.twitterAuthenticationMeta = null
         TwitterCore.getInstance().sessionManager.clearActiveSession()
         CookiesUtils.clearCookies(context)
     }

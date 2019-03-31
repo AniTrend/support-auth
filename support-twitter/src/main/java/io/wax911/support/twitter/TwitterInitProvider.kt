@@ -183,6 +183,4 @@ class TwitterInitProvider : ContentProvider() {
         initTwitter(context?.applicationContext)
         return false
     }
-
-
 }

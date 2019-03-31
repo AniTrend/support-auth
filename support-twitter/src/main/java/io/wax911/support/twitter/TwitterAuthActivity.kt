@@ -7,7 +7,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.twitter.sdk.android.core.*
 import com.twitter.sdk.android.core.identity.TwitterAuthClient
-import io.wax911.support.core.model.AuthStorage
+import io.wax911.support.core.model.AuthCache
 import io.wax911.support.core.model.SocialUser
 import io.wax911.support.core.view.DialogFactory
 import io.wax911.support.core.CoreAuthActivity
@@ -35,7 +35,7 @@ class TwitterAuthActivity : CoreAuthActivity() {
     }
 
     override val authenticationMeta by lazy {
-        AuthStorage.instance.twitterAuthenticationMeta
+        AuthCache.instance.twitterAuthenticationMeta
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
