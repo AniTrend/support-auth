@@ -18,8 +18,7 @@ import com.facebook.login.LoginResult
 import org.json.JSONObject
 
 import java.util.Arrays
-import io.wax911.support.core.model.AuthenticationMeta
-import io.wax911.support.core.model.AuthStorage
+import io.wax911.support.core.model.AuthCache
 import io.wax911.support.core.view.DialogFactory
 import io.wax911.support.core.CoreAuthActivity
 import io.wax911.support.core.model.SocialUser
@@ -50,7 +49,7 @@ class FacebookAuthActivity : CoreAuthActivity(), FacebookCallback<LoginResult>, 
     }
 
     override val authenticationMeta by lazy {
-        AuthStorage.instance.facebookAuthenticationMeta
+        AuthCache.instance.facebookAuthenticationMeta
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -79,13 +78,14 @@ class FacebookAuthActivity : CoreAuthActivity(), FacebookCallback<LoginResult>, 
     }
 
     override fun onCompleted(`object`: JSONObject, response: GraphResponse) {
-        val user = SocialUser()
-        user.userId = `object`.optString("id", "")
-        user.accessToken = AccessToken.getCurrentAccessToken().token
-        user.profilePictureUrl = String.format(PROFILE_PIC_URL, user.userId)
-        user.email = `object`.optString("email", "")
-        user.fullName = `object`.optString("name", "")
-        user.pageLink = `object`.optString("link", "")
+        val user = SocialUser().apply {
+            userId = `object`.optString("id", "")
+            accessToken = AccessToken.getCurrentAccessToken().token
+            profilePictureUrl = String.format(PROFILE_PIC_URL, userId)
+            email = `object`.optString("email", "")
+            fullName = `object`.optString("name", "")
+            pageLink = `object`.optString("link", "")
+        }
         loadingDialog?.dismiss()
         onSocialSuccess(user)
     }

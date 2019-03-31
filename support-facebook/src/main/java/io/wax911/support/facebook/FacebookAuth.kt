@@ -8,18 +8,18 @@ import com.facebook.login.LoginManager
 import io.wax911.support.core.callback.AuthCallback
 import io.wax911.support.core.callback.RevokeCallback
 import io.wax911.support.core.model.AuthenticationMeta
-import io.wax911.support.core.model.AuthStorage
+import io.wax911.support.core.model.AuthCache
 import io.wax911.support.core.ICoreAuth
 
 object FacebookAuth : ICoreAuth {
 
     override fun connectToProvider(context: Context?, listener: AuthCallback, scopes: List<String>) {
-        AuthStorage.instance.facebookAuthenticationMeta = AuthenticationMeta(scopes, listener)
+        AuthCache.instance.facebookAuthenticationMeta = AuthenticationMeta(scopes, listener)
         FacebookAuthActivity.start(context)
     }
 
     override fun disconnectProvider(context: Context?) {
-        AuthStorage.instance.facebookAuthenticationMeta = null
+        AuthCache.instance.facebookAuthenticationMeta = null
         LoginManager.getInstance().logOut()
     }
 
