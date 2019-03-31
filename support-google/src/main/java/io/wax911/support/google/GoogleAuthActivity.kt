@@ -1,53 +1,30 @@
 package io.wax911.support.google
 
-import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
-import com.google.android.gms.auth.GoogleAuthUtil
+import android.util.Log
 import com.google.android.gms.auth.api.Auth
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.auth.api.signin.GoogleSignInResult
 import com.google.android.gms.common.ConnectionResult
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.common.api.Scope
+import com.google.android.gms.tasks.Task
+import io.wax911.support.core.CoreAuthActivity
 import io.wax911.support.core.extension.getMetaValue
+import io.wax911.support.core.model.AuthCache
 import io.wax911.support.core.model.AuthenticationMeta
-import io.wax911.support.core.model.AuthStorage
 import io.wax911.support.core.model.SocialUser
 import io.wax911.support.core.utils.PreferenceUtils
-import io.wax911.support.core.view.DialogFactory
-import io.wax911.support.core.CoreAuthActivity
-import kotlinx.coroutines.*
-import java.util.*
+import kotlinx.coroutines.Runnable
 
 
 class GoogleAuthActivity : CoreAuthActivity(), GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
     private var googleApiClient: GoogleApiClient? = null
     private var retrySignIn: Boolean = false
-
-    private val scopes by lazy {
-        val scopes = ArrayList<Scope>()
-        authenticationMeta?.also {
-            for (str in it.scopes)
-                scopes.add(Scope(str))
-        }
-        scopes
-    }
-
-    private val accessTokenScope by lazy {
-        var scopes = "oauth2:id profile email"
-        if (authenticationMeta?.scopes?.isNotEmpty() == true)
-            scopes = "oauth2:" + TextUtils.join(" ", authenticationMeta!!.scopes)
-        scopes
-    }
-
-    private interface AccessTokenListener {
-        fun onTokenReady(accessToken: String)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,7 +36,6 @@ class GoogleAuthActivity : CoreAuthActivity(), GoogleApiClient.OnConnectionFaile
             .requestId().requestProfile()
             .requestEmail().requestIdToken(clientId)
 
-        setupScopes(gsoBuilder)
 
         googleApiClient = GoogleApiClient.Builder(this)
                 .enableAutoManage(this, this)
@@ -69,22 +45,12 @@ class GoogleAuthActivity : CoreAuthActivity(), GoogleApiClient.OnConnectionFaile
     }
 
     override val authenticationMeta: AuthenticationMeta? by lazy {
-        AuthStorage.instance.googleAuthenticationMeta
+        AuthCache.instance.googleAuthenticationMeta
     }
 
     private fun startSignInFlows() {
         val signInIntent = Auth.GoogleSignInApi.getSignInIntent(googleApiClient)
         startActivityForResult(signInIntent, RC_SIGN_IN)
-    }
-
-    private fun setupScopes(builder: GoogleSignInOptions.Builder) {
-        val scopes = scopes
-        if (scopes.size == 1) {
-            builder.requestScopes(scopes[0])
-        } else if (scopes.size > 1) {
-            val restScopesArray: Array<Scope?> = scopes.toTypedArray()
-            builder.requestScopes(scopes[0], *restScopesArray)
-        }
     }
 
     override fun onConnectionFailed(connectionResult: ConnectionResult) {
@@ -100,80 +66,39 @@ class GoogleAuthActivity : CoreAuthActivity(), GoogleApiClient.OnConnectionFaile
             return
         }
 
-        val signInResult = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+        val googleSignInAccountTask = GoogleSignIn.getSignedInAccountFromIntent(data)
 
         if (!isGoogleDisconnectRequested(this) && !isGoogleRevokeRequested(this) || retrySignIn) {
             retrySignIn = false
-            handleSignInResult(signInResult)
+            handleSignInResult(googleSignInAccountTask)
         }
     }
 
-    private fun handleSignInResult(result: GoogleSignInResult?) {
-        if (result == null) {
-            onCancellation()
-            return
-        }
+    private fun handleSignInResult(googleSignInAccountTask: Task<GoogleSignInAccount>) {
+        try {
+            val googleSignInAccount = googleSignInAccountTask.getResult(ApiException::class.java)
 
-        if (result.isSuccess && result.signInAccount != null) {
-            val googleSignInAccount = result.signInAccount
-            val user = SocialUser().apply {
-                userId = googleSignInAccount?.id
-                accessToken = googleSignInAccount?.idToken
-                profilePictureUrl = googleSignInAccount?.photoUrl.toString()
-                email = googleSignInAccount?.email
-                fullName = googleSignInAccount?.displayName
-            }
-
-            getAccessToken(googleSignInAccount, object : AccessTokenListener {
-                override fun onTokenReady(accessToken: String) {
-                    user.accessToken = accessToken
-                    onSocialSuccess(user)
+            when (googleSignInAccount != null) {
+                true -> onSocialSuccess(SocialUser().apply {
+                    userId = googleSignInAccount.id
+                    accessToken = googleSignInAccount.idToken
+                    profilePictureUrl = googleSignInAccount.photoUrl.toString()
+                    email = googleSignInAccount.email
+                    fullName = googleSignInAccount.displayName
+                })
+                else -> {
+                    Log.e(toString(), "handleSignInResult(googleSignInAccountTask: Task<GoogleSignInAccount>) | " +
+                            "googleSignInAccountTask.getResult(ApiException::class.java) returned null")
+                    onCancellation()
                 }
-            })
-        } else {
-            val errorMsg = result.status.statusMessage
-            if (errorMsg == null) {
-                onCancellation()
-            } else {
-                val error = Throwable(result.status.statusMessage)
-                onExceptionThrown(error)
             }
+        } catch (e: ApiException) {
+            // The ApiException status code indicates the detailed failure reason.
+            // Please refer to the GoogleSignInStatusCodes class reference for more information.
+            Log.w(toString(), "signInResult:failed code=" + e.statusCode)
+            onExceptionThrown(e)
         }
     }
-
-    private fun getAccessToken(account: GoogleSignInAccount?, listener: AccessTokenListener) {
-        val loadingDialog = DialogFactory
-                .createLoadingDialog(this)
-                .apply { show() }
-
-        GlobalScope.async(context = coroutineContext) {
-            if (account?.account == null) {
-                dismissLoadingDialog(loadingDialog)
-                withContext(Dispatchers.Main) {
-                    onExceptionThrown(RuntimeException("Account is null"))
-                }
-            } else {
-                dismissLoadingDialog(loadingDialog)
-                setGoogleDisconnectRequested(this@GoogleAuthActivity, false)
-                setGoogleRevokeRequested(this@GoogleAuthActivity, false)
-                val token = GoogleAuthUtil.getToken(applicationContext, account.account, accessTokenScope)
-                withContext(Dispatchers.Main) { listener.onTokenReady(token) }
-            }
-        }.invokeOnCompletion { cause: Throwable? ->
-            runBlocking {
-                cause?.also {
-                    it.printStackTrace()
-                    onExceptionThrown(cause)
-                }
-                dismissLoadingDialog(loadingDialog)
-            }
-        }
-    }
-
-    private suspend fun dismissLoadingDialog(progressDialog: ProgressDialog) = withContext(Dispatchers.Main) {
-        progressDialog.dismiss()
-    }
-
 
     override fun onConnected(bundle: Bundle?) {
         val signIn = Runnable {
