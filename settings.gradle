@@ -1,1 +1,1 @@
-include ':app', ':support-core', ':support-facebook', ':support-google', ':support-twitter'
+include ':app', ':support-auth-core', ':support-facebook', ':support-google', ':support-twitter'
