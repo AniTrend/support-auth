@@ -1,24 +1,20 @@
 plugins {
-    id("com.android.application")
+    id("com.android.library")
     id("kotlin-android")
-    id("kotlin-android-extensions")
 }
-
 
 android {
     compileSdkVersion compileSdk
     defaultConfig {
-        applicationId "co.anitrend.support.auth"
         minSdkVersion minSdk
         targetSdkVersion targetSdk
         versionCode versionCode
         versionName versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -28,35 +24,27 @@ android {
     }
 }
 
-android.defaultConfig.manifestPlaceholders = [
-        facebookAppId        : "your facebook app id",
-        googleWebClientId    : "your google web client id",
-        twitterConsumerKey   : "your twitter consumer key",
-        twitterConsumerSecret: "your twitter consumer secret"
+android.buildTypes.debug.manifestPlaceholders = [
+        twitterConsumerKey   : "K25JWbAcXzGx8yCAjqydgCGtt",
+        twitterConsumerSecret: "t91O95O0ULFXrSQOHTHpWwqYpvvcFAwgVX4vC1yCdSnRKxV56F"
 ]
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':support-auth-core')
-    implementation project(':support-auth-facebook')
-    implementation project(':support-auth-twitter')
-    implementation project(':support-auth-google')
-
-    implementation "com.google.android.material:material:$material"
 
     /** Kotlin Libraries */
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesCore"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesAndroid"
 
+    /** Material Design */
+    implementation "com.google.android.material:material:$material"
+
     /** Architecture Components */
     implementation "androidx.lifecycle:lifecycle-extensions:$anroidx"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
-    implementation "androidx.constraintlayout:constraintlayout:$constraint"
-
-    testImplementation "junit:junit:$junit"
-    androidTestImplementation "androidx.test:runner:$runner"
-    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso"
+    /** Twitter SDK */
+    implementation "com.twitter.sdk.android:twitter-core:3.0.0"
 }
