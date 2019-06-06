@@ -1,7 +1,6 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-android-extensions")
 }
 
 android {
@@ -13,6 +12,7 @@ android {
         versionName versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -25,12 +25,14 @@ android {
     }
 }
 
-androidExtensions {
-    experimental = true
-}
+android.buildTypes.debug.manifestPlaceholders = [
+        googleWebClientId: "49247361267-bm9eqtf4nvkchua8rq75q9a3qolf9ng0.apps.googleusercontent.com"
+]
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':support-auth-core')
 
     /** Kotlin Libraries */
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
@@ -42,4 +44,7 @@ dependencies {
 
     /** Architecture Components */
     implementation "androidx.lifecycle:lifecycle-extensions:$anroidx"
+
+    /** Google Auth SDK */
+    implementation "com.google.android.gms:play-services-auth:16.0.1"
 }

@@ -1,0 +1,17 @@
+<manifest package="co.anitrend.support.auth.google"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <application>
+        <meta-data
+            android:name="@string/co.anitrend.support.auth.googleWebClientId"
+            android:value="\ ${googleWebClientId}" />
+
+        <activity
+            android:name="co.anitrend.support.auth.google.GoogleAuthActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:excludeFromRecents="true"
+            android:launchMode="singleTask" />
+
+    </application>
+
+</manifest>

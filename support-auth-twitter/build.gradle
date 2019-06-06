@@ -1,7 +1,6 @@
 plugins {
     id("com.android.library")
     id("kotlin-android")
-    id("kotlin-android-extensions")
 }
 
 android {
@@ -25,12 +24,15 @@ android {
     }
 }
 
-androidExtensions {
-    experimental = true
-}
+android.buildTypes.debug.manifestPlaceholders = [
+        twitterConsumerKey   : "K25JWbAcXzGx8yCAjqydgCGtt",
+        twitterConsumerSecret: "t91O95O0ULFXrSQOHTHpWwqYpvvcFAwgVX4vC1yCdSnRKxV56F"
+]
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation project(':support-auth-core')
 
     /** Kotlin Libraries */
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlinVersion"
@@ -42,4 +44,7 @@ dependencies {
 
     /** Architecture Components */
     implementation "androidx.lifecycle:lifecycle-extensions:$anroidx"
+
+    /** Twitter SDK */
+    implementation "com.twitter.sdk.android:twitter-core:3.0.0"
 }

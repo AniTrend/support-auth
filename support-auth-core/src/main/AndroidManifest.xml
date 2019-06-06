@@ -1,4 +1,4 @@
-<manifest package="io.wax911.support.common"
+<manifest package="co.anitrend.support.auth.core"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -7,7 +7,7 @@
 
         <provider
             android:authorities="${applicationId}.SimpleAuthInitProvider"
-            android:name="io.wax911.support.core.provider.AuthInitProvider"
+            android:name=".provider.AuthInitProvider"
             android:exported="false" />
 
     </application>

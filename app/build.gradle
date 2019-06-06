@@ -1,11 +1,14 @@
-apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+plugins {
+    id("com.android.application")
+    id("kotlin-android")
+    id("kotlin-android-extensions")
+}
+
 
 android {
     compileSdkVersion compileSdk
     defaultConfig {
-        applicationId "io.wax911.support.auth"
+        applicationId "co.anitrend.support.auth"
         minSdkVersion minSdk
         targetSdkVersion targetSdk
         versionCode versionCode
@@ -18,14 +21,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug {
-            manifestPlaceholders = [
-                    facebookAppId        : "your facebook app id",
-                    googleWebClientId    : "your google web client id",
-                    twitterConsumerKey   : "your twitter consumer key",
-                    twitterConsumerSecret: "your twitter consumer secret"
-            ]
-        }
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -33,13 +28,20 @@ android {
     }
 }
 
+android.defaultConfig.manifestPlaceholders = [
+        facebookAppId        : "your facebook app id",
+        googleWebClientId    : "your google web client id",
+        twitterConsumerKey   : "your twitter consumer key",
+        twitterConsumerSecret: "your twitter consumer secret"
+]
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation project(':support-auth-core')
-    implementation project(":support-facebook")
-    implementation project(":support-twitter")
-    implementation project(":support-google")
+    implementation project(':support-auth-facebook')
+    implementation project(':support-auth-twitter')
+    implementation project(':support-auth-google')
 
     implementation "com.google.android.material:material:$material"
 
