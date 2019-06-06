@@ -57,9 +57,6 @@ private val authCallback = object : AuthCallback {
     GoogleAuth.connectToProvider(this, authCallback)
 ```
 
-[![Waffle.io - Columns and their card count](https://badge.waffle.io/AniTrend/support-auth.svg?columns=all)](https://waffle.io/AniTrend/support-auth)
-
-
 ## License
 
 ```
