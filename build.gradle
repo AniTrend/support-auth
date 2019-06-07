@@ -18,7 +18,7 @@ buildscript {
         coroutinesAndroid = '1.2.1'
 
         junit = '4.12'
-        runner = '1.1.0'
+        runner = '1.2.0'
         espresso = '3.1.0'
     }
     repositories {
