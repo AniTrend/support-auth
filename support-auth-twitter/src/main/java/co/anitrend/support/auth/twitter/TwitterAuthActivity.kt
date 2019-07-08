@@ -77,15 +77,16 @@ class TwitterAuthActivity : CoreAuthActivity() {
                 dismissLoadingDialog(loadingDialog)
 
                 val user = SocialUser().apply {
-                    val body = response.body()
-                    userId = body.getId().toString()
-                    accessToken = session.authToken.token
-                    secretToken = session.authToken.secret
-                    profilePictureUrl = String.format(PROFILE_PIC_URL, body.screenName)
-                    email = body.email
-                    fullName = body.name
-                    username = body.screenName
-                    pageLink = String.format(PAGE_LINK, body.screenName)
+                    response.body()?.also {
+                        userId = it.getId().toString()
+                        accessToken = session.authToken.token
+                        secretToken = session.authToken.secret
+                        profilePictureUrl = String.format(PROFILE_PIC_URL, it.screenName)
+                        email = it.email
+                        fullName = it.name
+                        username = it.screenName
+                        pageLink = String.format(PAGE_LINK, it.screenName)
+                    }
                 }
                 withContext(Dispatchers.Main) { onSocialSuccess(user) }
             } catch (e: Exception) {
@@ -95,7 +96,6 @@ class TwitterAuthActivity : CoreAuthActivity() {
                     dismissLoadingDialog(loadingDialog)
                 }
             }
-
         }
     }
 
