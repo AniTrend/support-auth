@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.Window
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Lifecycle
+import co.anitrend.support.auth.core.contract.IAuthStateChange
 import co.anitrend.support.auth.core.model.AuthenticationMeta
 import co.anitrend.support.auth.core.model.SocialUser
-import kotlinx.coroutines.*
-import kotlin.coroutines.CoroutineContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.cancel
 
-abstract class CoreAuthActivity : AppCompatActivity(), CoroutineScope by MainScope() {
+abstract class CoreAuthActivity : AppCompatActivity(), IAuthStateChange, CoroutineScope by MainScope() {
 
     protected abstract val authenticationMeta: AuthenticationMeta?
 
@@ -18,21 +20,21 @@ abstract class CoreAuthActivity : AppCompatActivity(), CoroutineScope by MainSco
         super.onCreate(savedInstanceState)
     }
 
-    protected fun onCancellation() {
+    override fun onCancellation() {
         if (lifecycle.currentState != Lifecycle.State.DESTROYED) {
             authenticationMeta?.callback?.onCancel()
             finish()
         }
     }
 
-    protected fun onExceptionThrown(error: Throwable) {
+    override fun onExceptionThrown(error: Throwable?) {
         if (lifecycle.currentState != Lifecycle.State.DESTROYED) {
             authenticationMeta?.callback?.onError(error)
             finish()
         }
     }
 
-    protected fun onSocialSuccess(user: SocialUser) {
+    override fun onSocialSuccess(user: SocialUser?) {
         if (lifecycle.currentState != Lifecycle.State.DESTROYED) {
             authenticationMeta?.callback?.onSuccess(user)
             finish()
