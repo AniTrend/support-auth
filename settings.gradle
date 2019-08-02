@@ -1,1 +1,4 @@
-include ':app', ':support-core', ':support-facebook', ':support-google', ':support-twitter'
+include ':support-auth-core', ':support-auth-facebook', ':support-auth-google', ':support-auth-twitter'
+
+if (System.getenv("CI") == null)
+    include ':app'
