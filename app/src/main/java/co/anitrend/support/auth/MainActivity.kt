@@ -21,11 +21,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val authCallback = object : AuthCallback {
-        override fun onSuccess(socialUser: SocialUser) {
+        override fun onSuccess(socialUser: SocialUser?) {
             Toast.makeText(this@MainActivity, "Logged in successfully", Toast.LENGTH_SHORT).show()
         }
 
-        override fun onError(error: Throwable) {
+        override fun onError(error: Throwable?) {
             Toast.makeText(this@MainActivity, "Error occurred", Toast.LENGTH_SHORT).show()
         }
 
