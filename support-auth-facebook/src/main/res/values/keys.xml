@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="co.anitrend.support.auth.facebookId">com.facebook.sdk.ApplicationId</string>
+</resources>
