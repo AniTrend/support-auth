@@ -8,10 +8,12 @@ import androidx.annotation.StringRes
 fun Context.getMetaValue(@StringRes stringRes: Int): String? {
     return try {
         val name = getString(stringRes)
-        val applicationInfo: ApplicationInfo = packageManager.getApplicationInfo(
-                packageName, PackageManager.GET_META_DATA)
-        (applicationInfo.metaData.get(name) as String)
-                .trim { it <= ' ' }
+        val applicationInfo = packageManager.getApplicationInfo(
+            packageName,
+            PackageManager.GET_META_DATA
+        )
+        (applicationInfo.metaData.get(name) as String?)
+            ?.trim { it <= ' ' }
     } catch (e: PackageManager.NameNotFoundException) {
         e.printStackTrace()
         null
