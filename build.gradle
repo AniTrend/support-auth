@@ -15,7 +15,7 @@ buildscript {
 
         kotlinVersion = '1.3.61'
         coroutinesCore = '1.3.3'
-        coroutinesAndroid = '1.3.3'
+        coroutinesAndroid = '1.3.4'
 
         junit = '4.13'
         runner = '1.2.0'
