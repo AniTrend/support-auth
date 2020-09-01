@@ -10,7 +10,7 @@ buildscript {
         versionName = '0.5.2-alpha01'
 
         constraint = '2.0.1'
-        material = '1.1.0'
+        material = '1.2.0'
         anroidx = '2.2.0'
 
         kotlinVersion = '1.4.0'
