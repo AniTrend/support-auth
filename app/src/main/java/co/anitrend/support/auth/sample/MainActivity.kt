@@ -1,4 +1,4 @@
-package co.anitrend.support.auth
+package co.anitrend.support.auth.sample
 
 import android.os.Bundle
 import android.widget.FrameLayout
@@ -10,14 +10,15 @@ import co.anitrend.support.auth.core.callback.AuthCallback
 import co.anitrend.support.auth.core.model.SocialUser
 import co.anitrend.support.auth.facebook.FacebookAuth
 import co.anitrend.support.auth.google.GoogleAuth
+import co.anitrend.support.auth.sample.databinding.ActivityMainBinding
 import co.anitrend.support.auth.twitter.TwitterAuth
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.main_content.*
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityMainBinding
+
     private val bottomDrawerBehavior: BottomSheetBehavior<FrameLayout> by lazy {
-        BottomSheetBehavior.from(bottomDrawer)
+        BottomSheetBehavior.from(binding.bottomDrawer)
     }
 
     private val authCallback = object : AuthCallback {
@@ -37,25 +38,26 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         bottomDrawerBehavior.state = BottomSheetBehavior.STATE_HIDDEN
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
-        bottomAppBar.also { bar: BottomAppBar ->
+        binding.bottomAppBar.also { bar: BottomAppBar ->
             bar.setNavigationOnClickListener {
                 bottomDrawerBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
             }
             bar.replaceMenu(R.menu.main_menu)
         }
-        facebookLoginFab.setOnClickListener {
+        binding.mainContent.facebookLoginFab.setOnClickListener {
             FacebookAuth.connectToProvider(this, authCallback)
         }
-        twitterLoginFab.setOnClickListener {
+        binding.mainContent.twitterLoginFab.setOnClickListener {
             TwitterAuth.connectToProvider(this, authCallback)
         }
-        googleLoginFab.setOnClickListener {
+        binding.mainContent.googleLoginFab.setOnClickListener {
             GoogleAuth.connectToProvider(this, authCallback)
         }
     }

@@ -1,4 +1,5 @@
-include ':support-auth-core', ':support-auth-facebook', ':support-auth-google', ':support-auth-twitter'
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+include ':core', ':facebook', ':google', ':twitter'
 
 if (System.getenv("CI") == null)
     include ':app'
