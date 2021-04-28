@@ -1,4 +1,4 @@
-# [ :biohazard: WIP :biohazard: ] Support Authentication Library
+# [ :biohazard: EOL :biohazard: ] Support Authentication Library
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/e5b695e0e61144639591a341f3d42d6d)](https://www.codacy.com/app/AniTrend/support-auth?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=AniTrend/support-auth&amp;utm_campaign=Badge_Grade) &nbsp; [![Build Status](https://travis-ci.org/AniTrend/support-auth.svg?branch=master)](https://travis-ci.org/AniTrend/support-auth)
 
